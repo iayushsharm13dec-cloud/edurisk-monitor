@@ -1,0 +1,105 @@
+// Version: 1.0.0
+type AcademicPerformance__438768541 =
+  {
+    gpa : Float;
+    grades : [CourseGrade__980221228];
+    semester : Text;
+    studentId : StudentId__381756952
+  };
+type AdvisorId__1017361521 = AdvisorId__862594418;
+type AdvisorId__862594418 = Principal;
+type AttendanceRecord__379599018 =
+  {
+    attended : Nat;
+    percentage : Float;
+    studentId : StudentId__381756952;
+    totalClasses : Nat
+  };
+type CourseGrade__980221228 = {courseName : Text; grade : Float};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type EngagementMetric__806259781 =
+  {
+    extracurricularsCount : Nat;
+    libraryVisits : Nat;
+    lmsLoginFrequency : Nat;
+    officeHoursAttended : Nat;
+    studentId : StudentId__381756952
+  };
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type InterventionId__222054276 = InterventionId__945658768;
+type InterventionId__945658768 = Nat;
+type InterventionStatus__332471133 = {#active; #pending; #resolved};
+type InterventionType__782892893 =
+  {
+    #academicCounseling;
+    #attendanceWarning;
+    #facultyMeeting;
+    #financialAid;
+    #mentalHealthSupport;
+    #other;
+    #peerTutoring
+  };
+type Intervention__331938535 =
+  {
+    advisorId : AdvisorId__1017361521;
+    createdAt : Timestamp__100252723;
+    description : Text;
+    id : InterventionId__222054276;
+    interventionType : InterventionType__782892893;
+    resolvedAt : ?Timestamp__100252723;
+    status : InterventionStatus__332471133;
+    studentId : StudentId__790797298
+  };
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type StudentId__381756952 = StudentId__585118929;
+type StudentId__585118929 = Nat;
+type StudentId__790797298 = StudentId__585118929;
+type StudentStatus__291312967 = {#active; #atRisk; #droppedOut};
+type Student__26715999 =
+  {
+    email : Text;
+    enrollmentDate : Timestamp__843771953;
+    id : StudentId__381756952;
+    name : Text;
+    program : Text;
+    status : StudentStatus__291312967;
+    year : Nat
+  };
+type Timestamp__100252723 = Timestamp__301639476;
+type Timestamp__301639476 = Int;
+type Timestamp__843771953 = Timestamp__301639476;
+actor {
+  stable interventionState :
+    {
+      interventions : List__415060402<Intervention__331938535>;
+      nextId : {var value : Nat}
+    };
+  stable studentState :
+    {
+      attendance :
+        Map__605269027<StudentId__585118929, AttendanceRecord__379599018>;
+      engagement :
+        Map__605269027<StudentId__585118929, EngagementMetric__806259781>;
+      nextId : {var value : Nat};
+      performance :
+        Map__605269027<StudentId__585118929, AcademicPerformance__438768541>;
+      students : List__415060402<Student__26715999>
+    }
+};

@@ -1,0 +1,25 @@
+{
+  "overview": "An academic risk monitoring system that uses predictive analytics to identify students at risk of dropping out. Features beautiful dark-themed dashboards, student risk profiles, intervention tracking, and advisor/admin views — all secured with Internet Identity login.",
+  "features": [
+    "Dark-themed analytics dashboard with dropout risk charts",
+    "Student risk profiles with attendance, grade, and engagement scores",
+    "Intervention tracking — create, assign, and monitor advisor plans",
+    "Risk-level filtering and search across all students",
+    "Admin and advisor role views",
+    "Internet Identity authentication (protected routes)",
+    "Pre-loaded mock data with 40+ sample students at various risk levels"
+  ],
+  "category": "education",
+  "tags": [
+    "education",
+    "analytics",
+    "dashboard",
+    "predictive",
+    "student",
+    "dropout",
+    "dark-theme",
+    "intervention",
+    "academic"
+  ],
+  "last_updated": "2026-04-15T15:39:48.772Z"
+}

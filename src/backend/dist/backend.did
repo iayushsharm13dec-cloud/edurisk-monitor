@@ -1,0 +1,164 @@
+type TrendPoint = 
+ record {
+   critical: nat;
+   high: nat;
+   low: nat;
+   medium: nat;
+   periodLabel: text;
+ };
+type Timestamp = int;
+type StudentSummary = 
+ record {
+   email: text;
+   enrollmentDate: Timestamp;
+   id: StudentId;
+   name: text;
+   program: text;
+   riskLevel: RiskLevel;
+   riskScore: nat;
+   status: StudentStatus;
+   year: nat;
+ };
+type StudentStatus = 
+ variant {
+   active;
+   atRisk;
+   droppedOut;
+ };
+type StudentId = nat;
+type StudentDetail = 
+ record {
+   attendance: opt AttendanceRecord;
+   engagement: opt EngagementMetric;
+   performance: opt AcademicPerformance;
+   risk: opt DropoutRisk;
+   student: Student;
+ };
+type Student = 
+ record {
+   email: text;
+   enrollmentDate: Timestamp;
+   id: StudentId;
+   name: text;
+   program: text;
+   status: StudentStatus;
+   year: nat;
+ };
+type RiskLevel = 
+ variant {
+   critical;
+   high;
+   low;
+   medium;
+ };
+type RiskFactor = 
+ record {
+   description: text;
+   name: text;
+   value: float64;
+   weight: float64;
+ };
+type RiskDistribution = 
+ record {
+   critical: nat;
+   high: nat;
+   low: nat;
+   medium: nat;
+ };
+type InterventionUpdate = 
+ record {
+   resolvedAt: opt Timestamp;
+   status: InterventionStatus;
+ };
+type InterventionType = 
+ variant {
+   academicCounseling;
+   attendanceWarning;
+   facultyMeeting;
+   financialAid;
+   mentalHealthSupport;
+   other;
+   peerTutoring;
+ };
+type InterventionStatus = 
+ variant {
+   active;
+   pending;
+   resolved;
+ };
+type InterventionId = nat;
+type InterventionCreate = 
+ record {
+   advisorId: AdvisorId;
+   description: text;
+   interventionType: InterventionType;
+   studentId: StudentId;
+ };
+type Intervention = 
+ record {
+   advisorId: AdvisorId;
+   createdAt: Timestamp;
+   description: text;
+   id: InterventionId;
+   interventionType: InterventionType;
+   resolvedAt: opt Timestamp;
+   status: InterventionStatus;
+   studentId: StudentId;
+ };
+type EngagementMetric = 
+ record {
+   extracurricularsCount: nat;
+   libraryVisits: nat;
+   lmsLoginFrequency: nat;
+   officeHoursAttended: nat;
+   studentId: StudentId;
+ };
+type DropoutRisk = 
+ record {
+   factors: vec RiskFactor;
+   predictedAt: Timestamp;
+   riskLevel: RiskLevel;
+   riskScore: nat;
+   studentId: StudentId;
+ };
+type CourseGrade = 
+ record {
+   courseName: text;
+   grade: float64;
+ };
+type AttendanceRecord = 
+ record {
+   attended: nat;
+   percentage: float64;
+   studentId: StudentId;
+   totalClasses: nat;
+ };
+type AdvisorStats = 
+ record {
+   activeInterventions: nat;
+   atRiskStudents: nat;
+   criticalStudents: nat;
+   resolvedInterventions: nat;
+   totalStudents: nat;
+ };
+type AdvisorId = principal;
+type AcademicPerformance = 
+ record {
+   gpa: float64;
+   grades: vec CourseGrade;
+   semester: text;
+   studentId: StudentId;
+ };
+service : {
+  createIntervention: (payload: InterventionCreate) -> (Intervention);
+  getAdvisorStats: () -> (AdvisorStats) query;
+  getInterventions: () -> (vec Intervention) query;
+  getRiskDistribution: () -> (RiskDistribution) query;
+  getRiskTrend: () -> (vec TrendPoint) query;
+  getStudent: (id: StudentId) -> (opt StudentDetail) query;
+  getStudentInterventions: (studentId: StudentId) -> (vec Intervention) query;
+  getStudents: () -> (vec StudentSummary) query;
+  seedSampleData: () -> ();
+  updateIntervention: (id: InterventionId, update: InterventionUpdate) ->
+   (opt Intervention);
+}
